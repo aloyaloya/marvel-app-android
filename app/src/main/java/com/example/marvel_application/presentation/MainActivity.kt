@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.MaterialTheme
 import com.example.marvel_application.presentation.navigation.NavGraph
+import com.example.marvel_application.presentation.ui.theme.InterTypography
 import com.example.marvel_application.presentation.ui.theme.MarvelApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +15,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MarvelApplicationTheme(dynamicColor = false) {
-                NavGraph()
+                MaterialTheme(typography = InterTypography) {
+                    NavGraph()
+                }
             }
         }
     }
