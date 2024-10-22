@@ -25,7 +25,8 @@ import com.example.marvel_application.presentation.ui.screens.main_screen.compon
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    onNavigateToCharacterCardScreen: (id: Int) -> Unit
+    onNavigateToCharacterCardScreen: (id: Int) -> Unit,
+    viewModel: CharacterViewModel
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -59,6 +60,7 @@ fun MainScreen(
             )
             CharactersList(
                 modifier = Modifier.fillMaxWidth(),
+                viewModel = viewModel,
                 onClick = onNavigateToCharacterCardScreen
             )
         }

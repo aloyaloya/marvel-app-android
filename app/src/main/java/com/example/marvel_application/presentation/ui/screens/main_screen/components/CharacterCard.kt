@@ -16,40 +16,44 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.marvel_application.R
+import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
 
 @Composable
 fun CharacterCard(
     modifier: Modifier = Modifier,
     id: Int,
-    name: String,
-    imageUrl: String,
+    viewModel: CharacterViewModel,
     onClick: (id: Int) -> Unit
 ) {
-    Box(
-        modifier = modifier
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(12.dp),
+    val character = viewModel.getCharacterById(id)
+
+    character?.let {
+        Box(
+            modifier = modifier
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(12.dp),
+                )
+                .clickable {
+                    onClick(id)
+                },
+            contentAlignment = Alignment.BottomStart
+        ) {
+            AsyncImage(
+                model = it.imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop
             )
-            .clickable {
-                onClick(id)
-            },
-        contentAlignment = Alignment.BottomStart
-    ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = dimensionResource(id = R.dimen.large_padding),
-                    vertical = dimensionResource(id = R.dimen.extra_large_padding)
-                ),
-            text = name,
-            style = MaterialTheme.typography.bodyLarge
-        )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.large_padding),
+                        vertical = dimensionResource(id = R.dimen.extra_large_padding)
+                    ),
+                text = it.name,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }

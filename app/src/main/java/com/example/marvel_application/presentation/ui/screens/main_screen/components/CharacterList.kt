@@ -7,18 +7,22 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.MarvelCharacters
+import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
 
 @Composable
 fun CharactersList(
     modifier: Modifier = Modifier,
+    viewModel: CharacterViewModel,
     onClick: (id: Int) -> Unit
 ) {
-    val characters = MarvelCharacters.characters
+    val characters by viewModel.characters.collectAsState()
+
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
 
@@ -33,8 +37,7 @@ fun CharactersList(
             CharacterCard(
                 modifier = Modifier.fillParentMaxSize(),
                 id = character.id,
-                name = character.name,
-                imageUrl = character.imageUrl,
+                viewModel = viewModel,
                 onClick = onClick
             )
         }

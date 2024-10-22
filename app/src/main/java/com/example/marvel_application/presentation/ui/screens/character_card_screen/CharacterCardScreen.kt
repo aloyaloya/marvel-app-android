@@ -21,56 +21,54 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.MarvelCharacter
-import com.example.marvel_application.presentation.ui.screens.main_screen.MarvelCharacters
+import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
 
 @Composable
 fun CharacterCardScreen(
     modifier: Modifier = Modifier,
     characterId: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    viewModel: CharacterViewModel
 ) {
-    val character = getCharacterById(characterId)
-    Box(modifier = modifier) {
-        AsyncImage(
-            modifier = Modifier.fillMaxSize(),
-            model = character.imageUrl,
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-        Column(modifier = Modifier
-            .padding(
-                horizontal = dimensionResource(id = R.dimen.large_padding),
-                vertical = dimensionResource(id = R.dimen.extra_large_padding)
+    val character = viewModel.getCharacterById(characterId)
+
+    character?.let {
+        Box(modifier = modifier) {
+            AsyncImage(
+                modifier = Modifier.fillMaxSize(),
+                model = it.imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop
             )
-        ) {
-            IconButton(onClick = onClick) {
-                Icon(
-                    modifier = Modifier.size(width = 32.dp, height = 28.dp),
-                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(
-                        id = R.string.content_description_to_main_button
-                    ),
-                    tint = Color.White
+            Column(modifier = Modifier
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.large_padding),
+                    vertical = dimensionResource(id = R.dimen.extra_large_padding)
+                )
+            ) {
+                IconButton(onClick = onClick) {
+                    Icon(
+                        modifier = Modifier.size(width = 32.dp, height = 28.dp),
+                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(
+                            id = R.string.content_description_to_main_button
+                        ),
+                        tint = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = it.name,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.height(
+                    dimensionResource(id = R.dimen.medium_spacer_height))
+                )
+                Text(
+                    text = it.quote,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = character.name,
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Spacer(modifier = Modifier.height(
-                dimensionResource(id = R.dimen.medium_spacer_height))
-            )
-            Text(
-                text = character.quote,
-                style = MaterialTheme.typography.bodyMedium
-            )
         }
     }
-}
-
-private fun getCharacterById(characterId: Int): MarvelCharacter {
-    val characters = MarvelCharacters.characters
-    return characters.first { it.id == characterId }
 }
