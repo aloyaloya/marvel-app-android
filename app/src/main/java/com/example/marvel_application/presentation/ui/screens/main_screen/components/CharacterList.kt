@@ -8,9 +8,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import com.example.marvel_application.R
 import com.example.marvel_application.presentation.ui.screens.main_screen.MarvelCharacters
-import com.example.marvel_application.presentation.ui.theme.Dimens
 
 @Composable
 fun CharactersList(
@@ -26,7 +27,7 @@ fun CharactersList(
         state = lazyListState,
         flingBehavior = snapBehavior,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(Dimens.largePadding)
+        contentPadding = PaddingValues(dimensionResource(id = R.dimen.large_padding))
     ) {
         items(characters) { character ->
             CharacterCard(

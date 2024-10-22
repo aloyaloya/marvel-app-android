@@ -12,9 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.marvel_application.presentation.ui.theme.Dimens
+import com.example.marvel_application.R
 
 @Composable
 fun CharacterCard(
@@ -43,7 +44,10 @@ fun CharacterCard(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = Dimens.largePadding, vertical = Dimens.extraLargePadding),
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.large_padding),
+                    vertical = dimensionResource(id = R.dimen.extra_large_padding)
+                ),
             text = name,
             style = MaterialTheme.typography.bodyLarge
         )

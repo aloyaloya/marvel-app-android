@@ -16,9 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.example.marvel_application.presentation.ui.theme.Dimens
 import com.example.marvel_application.R
 import com.example.marvel_application.presentation.ui.screens.main_screen.components.CharactersList
 
@@ -39,16 +39,24 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                modifier = Modifier.height(Dimens.logoHeight),
+                modifier = Modifier.height(
+                    dimensionResource(id = R.dimen.logo_height)
+                ),
                 painter = painterResource(id = R.drawable.ic_marvel_logo),
-                contentDescription = stringResource(id = R.string.content_description_marvel_logo),
+                contentDescription = stringResource(
+                    id = R.string.content_description_marvel_logo
+                ),
             )
-            Spacer(modifier = Modifier.height(Dimens.largeSpacerHeight))
+            Spacer(modifier = Modifier.height(
+                dimensionResource(id = R.dimen.large_spacer_height))
+            )
             Text(
                 text = stringResource(id = R.string.choose_your_hero),
                 style = MaterialTheme.typography.titleLarge,
             )
-            Spacer(modifier = Modifier.height(Dimens.extraLargeSpacerHeight))
+            Spacer(modifier = Modifier.height(
+                dimensionResource(id = R.dimen.extra_large_spacer_height))
+            )
             CharactersList(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onNavigateToCharacterCardScreen

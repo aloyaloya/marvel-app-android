@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,6 @@ import coil3.compose.AsyncImage
 import com.example.marvel_application.R
 import com.example.marvel_application.presentation.ui.screens.main_screen.MarvelCharacter
 import com.example.marvel_application.presentation.ui.screens.main_screen.MarvelCharacters
-import com.example.marvel_application.presentation.ui.theme.Dimens
 
 @Composable
 fun CharacterCardScreen(
@@ -39,7 +39,10 @@ fun CharacterCardScreen(
             contentScale = ContentScale.Crop
         )
         Column(modifier = Modifier
-            .padding(horizontal = Dimens.largePadding, vertical = Dimens.extraLargePadding)
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.large_padding),
+                vertical = dimensionResource(id = R.dimen.extra_large_padding)
+            )
         ) {
             IconButton(onClick = onClick) {
                 Icon(
@@ -56,7 +59,9 @@ fun CharacterCardScreen(
                 text = character.name,
                 style = MaterialTheme.typography.bodyLarge
             )
-            Spacer(modifier = Modifier.height(Dimens.mediumSpacerHeight))
+            Spacer(modifier = Modifier.height(
+                dimensionResource(id = R.dimen.medium_spacer_height))
+            )
             Text(
                 text = character.quote,
                 style = MaterialTheme.typography.bodyMedium
