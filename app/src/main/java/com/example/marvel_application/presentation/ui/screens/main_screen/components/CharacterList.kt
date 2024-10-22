@@ -35,7 +35,7 @@ fun CharactersList(
                 id = character.id,
                 name = character.name,
                 imageUrl = character.imageUrl,
-                onClick = onClick,
+                onClick = onClick
             )
         }
     }

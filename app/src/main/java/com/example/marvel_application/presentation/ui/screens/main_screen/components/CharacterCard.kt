@@ -34,7 +34,7 @@ fun CharacterCard(
             .clickable {
                 onClick(id)
             },
-        contentAlignment = Alignment.BottomStart,
+        contentAlignment = Alignment.BottomStart
     ) {
         AsyncImage(
             model = imageUrl,

@@ -39,23 +39,23 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                modifier = Modifier.height(
-                    dimensionResource(id = R.dimen.logo_height)
+                modifier = Modifier
+                    .height(dimensionResource(id = R.dimen.logo_height)
                 ),
                 painter = painterResource(id = R.drawable.ic_marvel_logo),
                 contentDescription = stringResource(
                     id = R.string.content_description_marvel_logo
-                ),
+                )
             )
-            Spacer(modifier = Modifier.height(
-                dimensionResource(id = R.dimen.large_spacer_height))
+            Spacer(modifier = Modifier
+                .height(dimensionResource(id = R.dimen.large_spacer_height))
             )
             Text(
                 text = stringResource(id = R.string.choose_your_hero),
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleLarge
             )
-            Spacer(modifier = Modifier.height(
-                dimensionResource(id = R.dimen.extra_large_spacer_height))
+            Spacer(modifier = Modifier
+                .height(dimensionResource(id = R.dimen.extra_large_spacer_height))
             )
             CharactersList(
                 modifier = Modifier.fillMaxWidth(),
