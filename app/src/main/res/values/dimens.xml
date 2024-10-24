@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+    <dimen name="large_padding">24dp</dimen>
+    <dimen name="extra_large_padding">48dp</dimen>
+
+    <dimen name="small_spacer_height">8dp</dimen>
+    <dimen name="medium_spacer_height">16dp</dimen>
+    <dimen name="large_spacer_height">24dp</dimen>
+    <dimen name="extra_large_spacer_height">48dp</dimen>
+
+    <dimen name="logo_height">36dp</dimen>
+</resources>
