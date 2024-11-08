@@ -50,7 +50,10 @@ android {
 }
 
 dependencies {
-
+    implementation (libs.retrofit)
+    implementation (libs.moshi)
+    implementation (libs.moshi.kotlin)
+    implementation (libs.converter.moshi)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.androidx.navigation.compose)
