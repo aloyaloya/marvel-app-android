@@ -1,6 +1,5 @@
 package com.example.marvel_application.presentation.ui.screens.character_card_screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,8 +40,6 @@ fun CharacterCardScreen(
 
     val sizeVariant = "portrait_incredible"
     val fullImageUrl = "${character?.thumbnail?.path}/$sizeVariant.${character?.thumbnail?.extension}"
-
-    Log.i("TEST", fullImageUrl)
 
     character?.let {
         Box(modifier = modifier) {
