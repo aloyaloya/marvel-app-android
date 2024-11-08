@@ -26,7 +26,7 @@ import com.example.marvel_application.presentation.ui.screens.main_screen.compon
 fun MainScreen(
     modifier: Modifier = Modifier,
     onNavigateToCharacterCardScreen: (id: Int) -> Unit,
-    viewModel: CharacterViewModel
+    viewModel: MainScreenViewModel
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Column(

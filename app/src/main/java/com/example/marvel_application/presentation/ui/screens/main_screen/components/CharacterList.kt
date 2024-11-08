@@ -7,22 +7,27 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
+import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenViewModel
 import kotlin.math.absoluteValue
 
 @Composable
 fun CharactersList(
     modifier: Modifier = Modifier,
-    viewModel: CharacterViewModel,
+    viewModel: MainScreenViewModel,
     onClick: (id: Int) -> Unit
 ) {
     val characters by viewModel.characters.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchCharacters()
+    }
 
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
