@@ -1,5 +1,6 @@
 package com.example.marvel_application.presentation.ui.screens.character_card_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -21,22 +25,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
 
 @Composable
 fun CharacterCardScreen(
     modifier: Modifier = Modifier,
     characterId: Int,
     onClick: () -> Unit,
-    viewModel: CharacterViewModel
+    viewModel: CharacterCardViewModel
 ) {
-    val character = viewModel.getCharacterById(characterId)
+    val character by viewModel.character.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchCharacterById(characterId)
+    }
+
+    val sizeVariant = "portrait_incredible"
+    val fullImageUrl = "${character?.thumbnail?.path}/$sizeVariant.${character?.thumbnail?.extension}"
+
+    Log.i("TEST", fullImageUrl)
 
     character?.let {
         Box(modifier = modifier) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
-                model = it.imageUrl,
+                model = fullImageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -65,7 +77,7 @@ fun CharacterCardScreen(
                     dimensionResource(id = R.dimen.medium_spacer_height))
                 )
                 Text(
-                    text = it.quote,
+                    text = it.description,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

@@ -32,6 +32,8 @@ fun NavGraph(
     navController: NavHostController = rememberNavController(),
 ) {
     val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
+    val characterCardViewModel: CharacterCardViewModel = hiltViewModel()
+
 
     NavHost(
         modifier = modifier,
@@ -57,7 +59,7 @@ fun NavGraph(
                 CharacterCardScreen(
                     characterId = characterId,
                     onClick = { navController.popBackStack() },
-                    viewModel = viewModel
+                    viewModel = characterCardViewModel
                 )
             }
         }
