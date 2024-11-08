@@ -15,15 +15,25 @@ import javax.inject.Inject
 class MainScreenViewModel @Inject constructor(
     private val repository: MarvelRepository
 ) : ViewModel() {
+
     private val _characters = MutableStateFlow<List<MarvelCharacter>>(emptyList())
     val characters: StateFlow<List<MarvelCharacter>> = _characters
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    init {
+        fetchCharacters()
+    }
+
     fun fetchCharacters() {
+        _isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val charactersList = repository.getCharacters()
             charactersList?.let {
                 _characters.value = it
             }
+            _isLoading.value = false
         }
     }
 
