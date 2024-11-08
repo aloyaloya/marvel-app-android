@@ -34,7 +34,6 @@ fun NavGraph(
     val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
     val characterCardViewModel: CharacterCardViewModel = hiltViewModel()
 
-
     NavHost(
         modifier = modifier,
         navController = navController,

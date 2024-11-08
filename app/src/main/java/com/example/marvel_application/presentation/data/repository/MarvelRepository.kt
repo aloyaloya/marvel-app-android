@@ -15,9 +15,11 @@ class MarvelRepository @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.data?.results?.filter { character ->
                     character.description.isNotEmpty() &&
-                            character.thumbnail?.path != null &&
-                            character.thumbnail.extension == "jpg" &&
-                            !character.thumbnail.path.contains("image_not_available", ignoreCase = true)
+                        character.thumbnail?.path != null &&
+                        character.thumbnail.extension == "jpg" &&
+                        !character.thumbnail.path.contains(
+                            "image_not_available", ignoreCase = true
+                        )
                 }
             } else {
                 null
