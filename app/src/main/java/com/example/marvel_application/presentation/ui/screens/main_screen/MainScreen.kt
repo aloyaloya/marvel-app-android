@@ -59,26 +59,30 @@ fun MainScreen(
                     id = R.string.content_description_marvel_logo
                 )
             )
-            if (isLoading) {
-                LoadingIndicator()
-            } else if (characters.isEmpty()) {
-                ErrorMessage()
-            } else {
-                Spacer(modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.large_spacer_height))
-                )
-                Text(
-                    text = stringResource(id = R.string.choose_your_hero),
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Spacer(modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.extra_large_spacer_height))
-                )
-                CharactersList(
-                    modifier = Modifier.fillMaxWidth(),
-                    viewModel = viewModel,
-                    onClick = onNavigateToCharacterCardScreen
-                )
+            when {
+                isLoading -> {
+                    LoadingIndicator()
+                }
+                characters.isEmpty() -> {
+                    ErrorMessage()
+                }
+                else -> {
+                    Spacer(modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.large_spacer_height))
+                    )
+                    Text(
+                        text = stringResource(id = R.string.choose_your_hero),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.extra_large_spacer_height))
+                    )
+                    CharactersList(
+                        modifier = Modifier.fillMaxWidth(),
+                        viewModel = viewModel,
+                        onClick = onNavigateToCharacterCardScreen
+                    )
+                }
             }
         }
     }

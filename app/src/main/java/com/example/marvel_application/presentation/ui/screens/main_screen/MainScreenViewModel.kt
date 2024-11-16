@@ -26,7 +26,7 @@ class MainScreenViewModel @Inject constructor(
         fetchCharacters()
     }
 
-    fun fetchCharacters() {
+    private fun fetchCharacters() {
         _isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val charactersList = repository.getCharacters()
@@ -39,5 +39,10 @@ class MainScreenViewModel @Inject constructor(
 
     fun getCharacterById(id: Int): MarvelCharacter? {
         return _characters.value.firstOrNull { it.id == id }
+    }
+
+    fun getFullImageUrl(character: MarvelCharacter): String {
+        val sizeVariant = "portrait_incredible"
+        return "${character.thumbnail?.path}/$sizeVariant.${character.thumbnail?.extension}"
     }
 }

@@ -12,7 +12,7 @@ object MarvelConfig {
     }
 }
 
-fun generateHash(ts: Long, publicKey: String, privateKey: String): String {
+private fun generateHash(ts: Long, publicKey: String, privateKey: String): String {
     val input = "$ts$privateKey$publicKey"
     return MessageDigest
         .getInstance("MD5")

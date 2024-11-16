@@ -38,14 +38,11 @@ fun CharacterCardScreen(
         viewModel.fetchCharacterById(characterId)
     }
 
-    val sizeVariant = "portrait_incredible"
-    val fullImageUrl = "${character?.thumbnail?.path}/$sizeVariant.${character?.thumbnail?.extension}"
-
     character?.let {
         Box(modifier = modifier) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
-                model = fullImageUrl,
+                model = viewModel.getFullImageUrl(character!!),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

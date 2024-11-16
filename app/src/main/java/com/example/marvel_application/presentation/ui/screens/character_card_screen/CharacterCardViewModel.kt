@@ -27,4 +27,9 @@ class CharacterCardViewModel @Inject constructor(
             }
         }
     }
+
+    fun getFullImageUrl(character: MarvelCharacter): String {
+        val sizeVariant = "portrait_incredible"
+        return "${character.thumbnail?.path}/$sizeVariant.${character.thumbnail?.extension}"
+    }
 }
