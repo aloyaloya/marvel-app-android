@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -26,9 +27,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(MarvelInterceptor())
+            .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(provideOkHttpClient())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }

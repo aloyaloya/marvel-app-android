@@ -11,16 +11,10 @@ interface MarvelApiService {
     suspend fun getCharacters(
         @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 20,
-        @Query("ts") ts: Long = MarvelConfig.ts,
-        @Query("apikey") apikey: String = MarvelConfig.PUBLIC_KEY,
-        @Query("hash") hash: String = MarvelConfig.getHash()
     ): Response<MarvelResponse>
 
     @GET("characters/{id}")
     suspend fun getCharacterById(
         @Path("id") id: Int,
-        @Query("ts") ts: Long = MarvelConfig.ts,
-        @Query("apikey") apikey: String = MarvelConfig.PUBLIC_KEY,
-        @Query("hash") hash: String = MarvelConfig.getHash()
     ): Response<MarvelResponse>
 }
