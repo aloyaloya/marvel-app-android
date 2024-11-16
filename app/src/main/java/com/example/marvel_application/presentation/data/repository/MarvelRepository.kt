@@ -15,14 +15,7 @@ class MarvelRepository @Inject constructor(
         return try {
             val response = apiService.getCharacters()
             if (response.isSuccessful) {
-                response.body()?.data?.results?.filter { character ->
-                    character.description.isNotEmpty() &&
-                        character.thumbnail?.path != null &&
-                        character.thumbnail.extension == "jpg" &&
-                        !character.thumbnail.path.contains(
-                            "image_not_available", ignoreCase = true
-                        )
-                }
+                response.body()?.data?.results?.mapValidCharacters()
             } else {
                 response.errorBody()?.string()?.let { Log.e(LOG_TAG, it) }
                 null
