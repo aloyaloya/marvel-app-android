@@ -2,7 +2,8 @@ package com.example.marvel_application.presentation.ui.screens.character_card_sc
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marvel_application.presentation.data.model.MarvelCharacter
+import com.example.marvel_application.presentation.data.models.CharacterUI
+import com.example.marvel_application.presentation.data.models.MarvelCharacterDTO
 import com.example.marvel_application.presentation.data.repository.MarvelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,20 +17,15 @@ class CharacterCardViewModel @Inject constructor(
     private val repository: MarvelRepository
 ) : ViewModel() {
 
-    private val _character = MutableStateFlow<MarvelCharacter?>(null)
-    val character: StateFlow<MarvelCharacter?> = _character
+    private val _character = MutableStateFlow<CharacterUI?>(null)
+    val character: StateFlow<CharacterUI?> = _character
 
     fun fetchCharacterById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val characterDetail = repository.getCharacterById(id)
             if (characterDetail != null) {
-                _character.value = characterDetail.data.results.firstOrNull()
+                _character.value = characterDetail
             }
         }
-    }
-
-    fun getFullImageUrl(character: MarvelCharacter): String {
-        val sizeVariant = "portrait_incredible"
-        return "${character.thumbnail?.path}/$sizeVariant.${character.thumbnail?.extension}"
     }
 }

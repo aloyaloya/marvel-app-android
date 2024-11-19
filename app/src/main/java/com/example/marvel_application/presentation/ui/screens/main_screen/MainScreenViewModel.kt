@@ -2,7 +2,8 @@ package com.example.marvel_application.presentation.ui.screens.main_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marvel_application.presentation.data.model.MarvelCharacter
+import com.example.marvel_application.presentation.data.models.CharacterUI
+import com.example.marvel_application.presentation.data.models.MarvelCharacterDTO
 import com.example.marvel_application.presentation.data.repository.MarvelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +17,8 @@ class MainScreenViewModel @Inject constructor(
     private val repository: MarvelRepository
 ) : ViewModel() {
 
-    private val _characters = MutableStateFlow<List<MarvelCharacter>>(emptyList())
-    val characters: StateFlow<List<MarvelCharacter>> = _characters
+    private val _characters = MutableStateFlow<List<CharacterUI>>(emptyList())
+    val characters: StateFlow<List<CharacterUI>> = _characters
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -37,12 +38,7 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    fun getCharacterById(id: Int): MarvelCharacter? {
+    fun getCharacterById(id: Int): CharacterUI? {
         return _characters.value.firstOrNull { it.id == id }
-    }
-
-    fun getFullImageUrl(character: MarvelCharacter): String {
-        val sizeVariant = "portrait_incredible"
-        return "${character.thumbnail?.path}/$sizeVariant.${character.thumbnail?.extension}"
     }
 }
