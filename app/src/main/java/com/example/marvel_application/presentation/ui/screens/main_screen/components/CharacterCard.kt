@@ -2,6 +2,7 @@ package com.example.marvel_application.presentation.ui.screens.main_screen.compo
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,13 +17,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
+import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenViewModel
 
 @Composable
 fun CharacterCard(
     modifier: Modifier = Modifier,
     id: Int,
-    viewModel: CharacterViewModel,
+    viewModel: MainScreenViewModel,
     onClick: (id: Int) -> Unit
 ) {
     val character = viewModel.getCharacterById(id)
@@ -40,7 +41,8 @@ fun CharacterCard(
             contentAlignment = Alignment.BottomStart
         ) {
             AsyncImage(
-                model = it.imageUrl,
+                modifier = Modifier.fillMaxSize(),
+                model = viewModel.getFullImageUrl(character),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

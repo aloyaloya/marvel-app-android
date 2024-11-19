@@ -2,7 +2,7 @@ package com.example.marvel_application.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.marvel_application.presentation.ui.screens.character_card_screen.CharacterCardScreen
-import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
 import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreen
 
 private object Screens {
@@ -30,8 +29,6 @@ fun NavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val viewModel: CharacterViewModel = viewModel()
-
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -42,7 +39,7 @@ fun NavGraph(
                 onNavigateToCharacterCardScreen = {
                     navController.navigate(Screens.Character.route(it))
                 },
-                viewModel = viewModel
+                viewModel = hiltViewModel()
             )
         }
         composable(
@@ -56,7 +53,7 @@ fun NavGraph(
                 CharacterCardScreen(
                     characterId = characterId,
                     onClick = { navController.popBackStack() },
-                    viewModel = viewModel
+                    viewModel = hiltViewModel()
                 )
             }
         }

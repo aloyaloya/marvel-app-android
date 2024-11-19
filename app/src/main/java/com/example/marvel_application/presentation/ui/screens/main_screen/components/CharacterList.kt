@@ -13,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.CharacterViewModel
+import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenViewModel
 import kotlin.math.absoluteValue
 
 @Composable
 fun CharactersList(
     modifier: Modifier = Modifier,
-    viewModel: CharacterViewModel,
+    viewModel: MainScreenViewModel,
     onClick: (id: Int) -> Unit
 ) {
     val characters by viewModel.characters.collectAsState()
