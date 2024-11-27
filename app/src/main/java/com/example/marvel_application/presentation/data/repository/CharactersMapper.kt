@@ -1,16 +1,19 @@
 package com.example.marvel_application.presentation.data.repository
 
 import com.example.marvel_application.presentation.data.database.entity.CharacterEntity
+import com.example.marvel_application.presentation.data.models.CharacterDomain
 import com.example.marvel_application.presentation.data.models.CharacterUI
 import com.example.marvel_application.presentation.data.models.MarvelCharacterDTO
 import javax.inject.Inject
 
 class CharacterMapper @Inject constructor() {
 
-    fun mapDtoToUI(dto: MarvelCharacterDTO): CharacterUI {
-        val url = (dto.thumbnail!!.path + "." + dto.thumbnail.extension).toHttpsPrefix()
+    fun mapDtoToDomain(dto: MarvelCharacterDTO): CharacterDomain {
+        val url: String? = dto.thumbnail?.let {
+            (it.path + "." + it.extension).toHttpsPrefix()
+        }
 
-        return CharacterUI(
+        return CharacterDomain(
             id = dto.id,
             name = dto.name,
             description = dto.description,
@@ -18,10 +21,10 @@ class CharacterMapper @Inject constructor() {
         )
     }
 
-    fun mapEntityToUI(entity: CharacterEntity): CharacterUI {
+    fun mapEntityToDomain(entity: CharacterEntity): CharacterDomain {
         val url = (entity.path + "." + entity.extension).toHttpsPrefix()
 
-        return CharacterUI(
+        return CharacterDomain(
             id = entity.id,
             name = entity.name,
             description = entity.description,
@@ -36,6 +39,15 @@ class CharacterMapper @Inject constructor() {
             description = dto.description,
             path = dto.thumbnail!!.path,
             extension = dto.thumbnail.extension
+        )
+    }
+
+    fun mapDomainToUI(domain: CharacterDomain): CharacterUI {
+        return CharacterUI(
+            id = domain.id,
+            name = domain.name,
+            description = domain.description,
+            thumbnailUrl = domain.thumbnailUrl
         )
     }
 
