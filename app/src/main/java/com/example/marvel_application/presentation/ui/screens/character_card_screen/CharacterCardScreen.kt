@@ -32,49 +32,56 @@ fun CharacterCardScreen(
     onClick: () -> Unit,
     viewModel: CharacterCardViewModel
 ) {
-    val character by viewModel.character.collectAsState()
-
     LaunchedEffect(Unit) {
         viewModel.fetchCharacterById(characterId)
     }
 
-    character?.let {
-        Box(modifier = modifier) {
-            AsyncImage(
-                modifier = Modifier.fillMaxSize(),
-                model = it.thumbnailUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
-            Column(modifier = Modifier
-                .padding(
-                    horizontal = dimensionResource(id = R.dimen.large_padding),
-                    vertical = dimensionResource(id = R.dimen.extra_large_padding)
+    val state by viewModel.screenState.collectAsState()
+
+    when (state) {
+        is CharacterScreenState.Loading -> {}
+        is CharacterScreenState.Success -> {
+            val character = (state as CharacterScreenState.Success).character
+            Box(modifier = modifier) {
+                AsyncImage(
+                    modifier = Modifier.fillMaxSize(),
+                    model = character.thumbnailUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
                 )
-            ) {
-                IconButton(onClick = onClick) {
-                    Icon(
-                        modifier = Modifier.size(width = 32.dp, height = 28.dp),
-                        painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = stringResource(
-                            id = R.string.content_description_to_main_button
-                        ),
-                        tint = Color.White
+                Column(modifier = Modifier
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.large_padding),
+                        vertical = dimensionResource(id = R.dimen.extra_large_padding)
+                    )
+                ) {
+                    IconButton(onClick = onClick) {
+                        Icon(
+                            modifier = Modifier.size(width = 32.dp, height = 28.dp),
+                            painter = painterResource(id = R.drawable.ic_arrow_back),
+                            contentDescription = stringResource(
+                                id = R.string.content_description_to_main_button
+                            ),
+                            tint = Color.White
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = character.name,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Spacer(modifier = Modifier.height(
+                        dimensionResource(id = R.dimen.medium_spacer_height))
+                    )
+                    Text(
+                        text = character.description,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = it.name,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Spacer(modifier = Modifier.height(
-                    dimensionResource(id = R.dimen.medium_spacer_height))
-                )
-                Text(
-                    text = it.description,
-                    style = MaterialTheme.typography.bodyMedium
-                )
             }
+        }
+        is CharacterScreenState.Error -> {
+            Text(text = (state as CharacterScreenState.Error).message)
         }
     }
 }

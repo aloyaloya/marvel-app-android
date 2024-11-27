@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import com.example.marvel_application.R
+import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenState
 import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenViewModel
 import kotlin.math.absoluteValue
 
@@ -22,7 +23,8 @@ fun CharactersList(
     viewModel: MainScreenViewModel,
     onClick: (id: Int) -> Unit
 ) {
-    val characters by viewModel.characters.collectAsState()
+    val state by viewModel.screenState.collectAsState()
+    val characters = (state as MainScreenState.Success).characters
 
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)

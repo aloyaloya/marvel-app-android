@@ -2,8 +2,9 @@ package com.example.marvel_application.presentation.ui.screens.main_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.marvel_application.R
 import com.example.marvel_application.presentation.data.models.CharacterUI
-import com.example.marvel_application.presentation.data.models.MarvelCharacterDTO
+import com.example.marvel_application.presentation.data.repository.CharacterMapper
 import com.example.marvel_application.presentation.data.repository.MarvelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -12,33 +13,53 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+sealed interface MainScreenState {
+    data object Loading : MainScreenState
+    data class Success(val characters: List<CharacterUI>) : MainScreenState
+    data class Error(val message: String) : MainScreenState
+}
+
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
-    private val repository: MarvelRepository
+    private val repository: MarvelRepository,
+    private val characterMapper: CharacterMapper
 ) : ViewModel() {
 
-    private val _characters = MutableStateFlow<List<CharacterUI>>(emptyList())
-    val characters: StateFlow<List<CharacterUI>> = _characters
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
+    private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
+    val screenState: StateFlow<MainScreenState> = _screenState
 
     init {
         fetchCharacters()
     }
 
     private fun fetchCharacters() {
-        _isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            val charactersList = repository.getCharacters()
-            charactersList?.let {
-                _characters.value = it
+            _screenState.value = MainScreenState.Loading
+            try {
+                val charactersList = repository.getCharacters()
+                if (!charactersList.isNullOrEmpty()) {
+                    _screenState.value = MainScreenState.Success(
+                        charactersList.map { characterMapper.mapDomainToUI(it) }
+                    )
+                } else {
+                    _screenState.value = MainScreenState.Error(
+                        R.string.main_screen_error_message.toString()
+                    )
+                }
+            } catch (e: Exception) {
+                _screenState.value = MainScreenState.Error(
+                    "Failed to fetch characters: ${e.message}"
+                )
             }
-            _isLoading.value = false
         }
     }
 
     fun getCharacterById(id: Int): CharacterUI? {
-        return _characters.value.firstOrNull { it.id == id }
+        val currentState = _screenState.value
+        return if (currentState is MainScreenState.Success) {
+            currentState.characters.firstOrNull { it.id == id }
+        } else {
+            null
+        }
     }
 }
