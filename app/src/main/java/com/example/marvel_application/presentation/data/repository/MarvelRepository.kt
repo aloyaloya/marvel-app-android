@@ -2,7 +2,7 @@ package com.example.marvel_application.presentation.data.repository
 
 import android.util.Log
 import com.example.marvel_application.presentation.data.database.CharacterDao
-import com.example.marvel_application.presentation.data.models.CharacterUI
+import com.example.marvel_application.presentation.data.models.CharacterDomain
 import com.example.marvel_application.presentation.network.MarvelApiService
 import javax.inject.Inject
 
@@ -13,11 +13,11 @@ class MarvelRepository @Inject constructor(
     private val characterDao: CharacterDao,
     private val characterMapper: CharacterMapper
 ) {
-    suspend fun getCharacters(): List<CharacterUI>? {
+    suspend fun getCharacters(): List<CharacterDomain>? {
         return try {
             val localCharacters = characterDao.getCharacters()
             if (localCharacters.isNotEmpty()) {
-                return localCharacters.map { characterMapper.mapEntityToUI(it) }
+                return localCharacters.map { characterMapper.mapEntityToDomain(it) }
             }
 
             val response = apiService.getCharacters()
@@ -29,7 +29,7 @@ class MarvelRepository @Inject constructor(
                         characterMapper.mapDtoToEntity(character)
                     })
                 }
-                return validCharacters?.map { characterMapper.mapDtoToUI(it) }
+                return validCharacters?.map { characterMapper.mapDtoToDomain(it) }
             } else {
                 response.errorBody()?.string()?.let { Log.e(LOG_TAG, it) }
                 null
@@ -40,11 +40,11 @@ class MarvelRepository @Inject constructor(
         }
     }
 
-    suspend fun getCharacterById(id: Int): CharacterUI? {
+    suspend fun getCharacterById(id: Int): CharacterDomain? {
         return try {
             val localCharacter = characterDao.getCharacterById(id)
             if (localCharacter != null) {
-                return characterMapper.mapEntityToUI(localCharacter)
+                return characterMapper.mapEntityToDomain(localCharacter)
             }
 
             val response = apiService.getCharacterById(id)
@@ -53,7 +53,7 @@ class MarvelRepository @Inject constructor(
                 characterDto?.let { dto ->
                     val entity = characterMapper.mapDtoToEntity(dto)
                     characterDao.insertCharacter(entity)
-                    return characterMapper.mapEntityToUI(entity)
+                    return characterMapper.mapEntityToDomain(entity)
                 }
             } else {
                 response.errorBody()?.string()?.let { Log.e(LOG_TAG, it) }
