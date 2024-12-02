@@ -46,8 +46,7 @@ fun CharactersList(
                         scaleX = scale
                         scaleY = scale
                     },
-                id = character.id,
-                viewModel = viewModel,
+                character = character,
                 onClick = onClick
             )
         }

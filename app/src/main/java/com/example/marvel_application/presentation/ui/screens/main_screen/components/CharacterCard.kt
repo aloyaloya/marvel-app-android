@@ -17,18 +17,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenViewModel
+import com.example.marvel_application.presentation.data.models.CharacterUI
 
 @Composable
 fun CharacterCard(
     modifier: Modifier = Modifier,
-    id: Int,
-    viewModel: MainScreenViewModel,
+    character: CharacterUI,
     onClick: (id: Int) -> Unit
 ) {
-    val character = viewModel.getCharacterById(id)
-
-    character?.let {
+    character.let {
         Box(
             modifier = modifier
                 .shadow(
@@ -36,7 +33,7 @@ fun CharacterCard(
                     shape = RoundedCornerShape(12.dp),
                 )
                 .clickable {
-                    onClick(id)
+                    onClick(it.id)
                 },
             contentAlignment = Alignment.BottomStart
         ) {

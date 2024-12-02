@@ -53,13 +53,4 @@ class MainScreenViewModel @Inject constructor(
             }
         }
     }
-
-    fun getCharacterById(id: Int): CharacterUI? {
-        val currentState = _screenState.value
-        return if (currentState is MainScreenState.Success) {
-            currentState.characters.firstOrNull { it.id == id }
-        } else {
-            null
-        }
-    }
 }
