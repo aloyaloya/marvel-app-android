@@ -42,7 +42,7 @@ fun CharacterCard(
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
-                model = viewModel.getFullImageUrl(character),
+                model = it.thumbnailUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

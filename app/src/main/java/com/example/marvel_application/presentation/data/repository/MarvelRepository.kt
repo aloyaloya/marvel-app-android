@@ -1,21 +1,35 @@
 package com.example.marvel_application.presentation.data.repository
 
 import android.util.Log
-import com.example.marvel_application.presentation.data.model.MarvelCharacter
-import com.example.marvel_application.presentation.data.model.MarvelResponse
+import com.example.marvel_application.presentation.data.database.CharacterDao
+import com.example.marvel_application.presentation.data.models.CharacterDomain
 import com.example.marvel_application.presentation.network.MarvelApiService
 import javax.inject.Inject
 
 private const val LOG_TAG = "MarvelRepository"
 
 class MarvelRepository @Inject constructor(
-    private val apiService: MarvelApiService
+    private val apiService: MarvelApiService,
+    private val characterDao: CharacterDao,
+    private val characterMapper: CharacterMapper
 ) {
-    suspend fun getCharacters(): List<MarvelCharacter>? {
+    suspend fun getCharacters(): List<CharacterDomain>? {
         return try {
+            val localCharacters = characterDao.getCharacters()
+            if (localCharacters.isNotEmpty()) {
+                return localCharacters.map { characterMapper.mapEntityToDomain(it) }
+            }
+
             val response = apiService.getCharacters()
             if (response.isSuccessful) {
-                response.body()?.data?.results?.mapValidCharacters()
+                val characters = response.body()?.data?.results
+                val validCharacters = characters?.let { characterMapper.mapValidCharacters(it) }
+                validCharacters?.let {
+                    characterDao.insertCharacters(it.map { character ->
+                        characterMapper.mapDtoToEntity(character)
+                    })
+                }
+                return validCharacters?.map { characterMapper.mapDtoToDomain(it) }
             } else {
                 response.errorBody()?.string()?.let { Log.e(LOG_TAG, it) }
                 null
@@ -26,11 +40,21 @@ class MarvelRepository @Inject constructor(
         }
     }
 
-    suspend fun getCharacterById(id: Int): MarvelResponse? {
+    suspend fun getCharacterById(id: Int): CharacterDomain? {
         return try {
+            val localCharacter = characterDao.getCharacterById(id)
+            if (localCharacter != null) {
+                return characterMapper.mapEntityToDomain(localCharacter)
+            }
+
             val response = apiService.getCharacterById(id)
             if (response.isSuccessful) {
-                response.body()
+                val characterDto = response.body()?.data?.results?.firstOrNull()
+                characterDto?.let { dto ->
+                    val entity = characterMapper.mapDtoToEntity(dto)
+                    characterDao.insertCharacter(entity)
+                    return characterMapper.mapEntityToDomain(entity)
+                }
             } else {
                 response.errorBody()?.string()?.let { Log.e(LOG_TAG, it) }
                 null

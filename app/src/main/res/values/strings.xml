@@ -3,5 +3,6 @@
     <string name="content_description_marvel_logo">Marvel studios</string>
     <string name="choose_your_hero">Choose your hero</string>
     <string name="content_description_to_main_button">Back to main screen</string>
-    <string name="characters_loading_error_message">We could\'nt find the heroes.</string>
+    <string name="main_screen_error_message">No characters found</string>
+    <string name="character_screen_error_message">Character not found</string>
 </resources>

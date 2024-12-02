@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.marvel_application.R
+import com.example.marvel_application.presentation.ui.screens.character_card_screen.CharacterScreenState
 import com.example.marvel_application.presentation.ui.screens.main_screen.components.CharactersList
 
 @Composable
@@ -36,8 +37,7 @@ fun MainScreen(
     onNavigateToCharacterCardScreen: (id: Int) -> Unit,
     viewModel: MainScreenViewModel
 ) {
-    val isLoading by viewModel.isLoading.collectAsState()
-    val characters by viewModel.characters.collectAsState()
+    val state by viewModel.screenState.collectAsState()
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -59,14 +59,12 @@ fun MainScreen(
                     id = R.string.content_description_marvel_logo
                 )
             )
-            when {
-                isLoading -> {
+
+            when (state) {
+                is MainScreenState.Loading -> {
                     LoadingIndicator()
                 }
-                characters.isEmpty() -> {
-                    ErrorMessage()
-                }
-                else -> {
+                is MainScreenState.Success -> {
                     Spacer(modifier = Modifier
                         .height(dimensionResource(id = R.dimen.large_spacer_height))
                     )
@@ -82,6 +80,9 @@ fun MainScreen(
                         viewModel = viewModel,
                         onClick = onNavigateToCharacterCardScreen
                     )
+                }
+                is MainScreenState.Error -> {
+                    ErrorMessage((state as CharacterScreenState.Error).message)
                 }
             }
         }
@@ -104,7 +105,7 @@ private fun LoadingIndicator() {
 }
 
 @Composable
-private fun ErrorMessage() {
+private fun ErrorMessage(message: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -112,7 +113,7 @@ private fun ErrorMessage() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(id = R.string.characters_loading_error_message),
+            text = message,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )

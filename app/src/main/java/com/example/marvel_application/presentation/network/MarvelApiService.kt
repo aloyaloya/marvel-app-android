@@ -1,6 +1,6 @@
 package com.example.marvel_application.presentation.network
 
-import com.example.marvel_application.presentation.data.model.MarvelResponse
+import com.example.marvel_application.presentation.data.models.MarvelResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
