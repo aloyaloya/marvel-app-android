@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.marvel_application.R
+import com.example.marvel_application.presentation.ui.viewmodels.CharacterCardViewModel
+import com.example.marvel_application.presentation.ui.viewmodels.CharacterScreenState
 
 @Composable
 fun CharacterCardScreen(

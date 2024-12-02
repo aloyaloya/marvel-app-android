@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenState
-import com.example.marvel_application.presentation.ui.screens.main_screen.MainScreenViewModel
+import com.example.marvel_application.presentation.ui.viewmodels.MainScreenState
+import com.example.marvel_application.presentation.ui.viewmodels.MainScreenViewModel
 import kotlin.math.absoluteValue
 
 @Composable

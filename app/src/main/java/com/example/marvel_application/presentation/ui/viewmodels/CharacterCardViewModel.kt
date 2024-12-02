@@ -1,4 +1,4 @@
-package com.example.marvel_application.presentation.ui.screens.character_card_screen
+package com.example.marvel_application.presentation.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
