@@ -1,4 +1,4 @@
-package com.example.marvel_application.presentation.ui.screens.main_screen
+package com.example.marvel_application.presentation.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -51,15 +51,6 @@ class MainScreenViewModel @Inject constructor(
                     "Failed to fetch characters: ${e.message}"
                 )
             }
-        }
-    }
-
-    fun getCharacterById(id: Int): CharacterUI? {
-        val currentState = _screenState.value
-        return if (currentState is MainScreenState.Success) {
-            currentState.characters.firstOrNull { it.id == id }
-        } else {
-            null
         }
     }
 }

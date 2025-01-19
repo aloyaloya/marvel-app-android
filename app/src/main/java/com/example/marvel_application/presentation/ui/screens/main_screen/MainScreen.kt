@@ -28,8 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.marvel_application.R
-import com.example.marvel_application.presentation.ui.screens.character_card_screen.CharacterScreenState
+import com.example.marvel_application.presentation.ui.viewmodels.CharacterScreenState
 import com.example.marvel_application.presentation.ui.screens.main_screen.components.CharactersList
+import com.example.marvel_application.presentation.ui.viewmodels.MainScreenState
+import com.example.marvel_application.presentation.ui.viewmodels.MainScreenViewModel
 
 @Composable
 fun MainScreen(
